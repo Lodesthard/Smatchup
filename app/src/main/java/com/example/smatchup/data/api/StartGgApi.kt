@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/smatchup/data/api/StartGgApi.kt
 package com.example.smatchup.data.api
 
 import com.example.smatchup.data.cache.RateLimiter
@@ -22,14 +21,22 @@ class StartGgApi(
         private val JSON = "application/json; charset=utf-8".toMediaType()
     }
 
+    /**
+     * Send a GraphQL request. Returns the raw response body wrapped in [ApiResult].
+     *
+     * @param graphql the GraphQL query/mutation source.
+     * @param variables a pre-serialized JSON object string for the GraphQL variables
+     *                  (e.g. `JSONObject(mapOf("id" to 42)).toString()`). Defaults to `"{}"`.
+     *                  Using a String rather than `org.json.JSONObject` keeps this class testable
+     *                  in JVM unit tests, where `JSONObject` is stubbed.
+     */
     suspend fun query(graphql: String, variables: String = "{}"): ApiResult<String> {
         if (token.isBlank()) return ApiResult.Unauthorized
         rateLimiter.acquire()
 
-        // Build request JSON without org.json (Android-only stub, unavailable in JVM unit tests)
-        val escapedQuery = graphql.replace("\\", "\\\\").replace("\"", "\\\"")
-        val bodyJson = """{"query":"$escapedQuery","variables":$variables}"""
-        val body = bodyJson.toRequestBody(JSON)
+        val escapedQuery = jsonEscape(graphql)
+        val body = """{"query":"$escapedQuery","variables":$variables}"""
+            .toRequestBody(JSON)
 
         val req = Request.Builder()
             .url(endpoint)
@@ -51,5 +58,29 @@ class StartGgApi(
                 ApiResult.NetworkError(e)
             }
         }
+    }
+
+    /** Minimal JSON string-literal escaping per RFC 8259 section 7. */
+    private fun jsonEscape(s: String): String {
+        val sb = StringBuilder(s.length + 16)
+        for (c in s) {
+            when (c) {
+                '\\' -> sb.append("\\\\")
+                '"'  -> sb.append("\\\"")
+                '\n' -> sb.append("\\n")
+                '\r' -> sb.append("\\r")
+                '\t' -> sb.append("\\t")
+                '\b' -> sb.append("\\b")
+                '' -> sb.append("\\f")
+                else -> {
+                    if (c.code < 0x20) {
+                        sb.append(String.format("\\u%04x", c.code))
+                    } else {
+                        sb.append(c)
+                    }
+                }
+            }
+        }
+        return sb.toString()
     }
 }

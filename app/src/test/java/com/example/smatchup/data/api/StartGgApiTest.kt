@@ -57,4 +57,19 @@ class StartGgApiTest {
         val r = api("tok").query("q")
         assertTrue(r is ApiResult.NetworkError)
     }
+
+    @Test fun multilineQueryProducesValidJsonBody() = runTest {
+        server.enqueue(MockResponse().setResponseCode(200).setBody("""{"data":{"ok":true}}"""))
+        val multiline = "query Foo {\n  tournament {\n    name\n  }\n}"
+        val r = api("tok").query(multiline)
+        assertTrue(r is ApiResult.Success)
+
+        val recorded = server.takeRequest()
+        val sent = recorded.body.readUtf8()
+        // The newlines in `multiline` must be escaped to `\n` in the JSON body so that the
+        // JSON parser on the server side does not see a raw line break inside a string literal.
+        assertTrue("body should contain escaped \\n", sent.contains("query Foo {\\n  tournament {\\n    name\\n  }\\n}"))
+        // And the body itself must be parseable JSON (no bare newlines in the string).
+        assertTrue("body should not contain raw newline inside string", !sent.contains("\n  tournament"))
+    }
 }
