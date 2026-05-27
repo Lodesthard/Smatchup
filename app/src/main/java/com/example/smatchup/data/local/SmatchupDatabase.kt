@@ -1,8 +1,11 @@
-// app/src/main/java/com/example/smatchup/data/local/SmatchupDatabase.kt
 package com.example.smatchup.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.smatchup.data.local.dao.CacheDao
+import com.example.smatchup.data.local.dao.FavoritesDao
+import com.example.smatchup.data.local.dao.SessionDao
+import com.example.smatchup.data.local.dao.UserDao
 import com.example.smatchup.data.local.entity.CachedBestPlayerEntity
 import com.example.smatchup.data.local.entity.CachedFramedataEntity
 import com.example.smatchup.data.local.entity.CachedWinrateEntity
@@ -27,5 +30,8 @@ import com.example.smatchup.data.local.entity.UserEntity
     exportSchema = true
 )
 abstract class SmatchupDatabase : RoomDatabase() {
-    // DAOs added in Task 10
+    abstract fun userDao(): UserDao
+    abstract fun favoritesDao(): FavoritesDao
+    abstract fun cacheDao(): CacheDao
+    abstract fun sessionDao(): SessionDao
 }
