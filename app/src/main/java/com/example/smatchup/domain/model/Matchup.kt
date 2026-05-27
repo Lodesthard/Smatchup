@@ -20,6 +20,6 @@ data class Matchup(
     val majorsCount: Int = 0
 ) {
     init {
-        require(charA <= charB) { "Matchup must be stored with charA <= charB (got $charA / $charB)" }
+        require(charA < charB) { "Matchup must be stored with charA < charB lexicographically (got $charA / $charB)" }
     }
 }
