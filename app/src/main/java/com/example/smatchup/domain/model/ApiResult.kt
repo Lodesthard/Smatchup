@@ -13,8 +13,8 @@ sealed class ApiResult<out T> {
         is NetworkError -> this
         is RateLimited -> this
         is ParseError -> this
-        Unauthorized -> Unauthorized
-        NotFound -> NotFound
+        is Unauthorized -> this
+        is NotFound -> this
     }
 
     fun getOrNull(): T? = (this as? Success)?.data

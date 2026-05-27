@@ -1,6 +1,7 @@
 package com.example.smatchup.domain.model
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -22,7 +23,7 @@ class ApiResultTest {
     @Test
     fun `getOrNull returns data on Success and null otherwise`() {
         assertEquals(7, ApiResult.Success(7).getOrNull())
-        assertEquals(null, ApiResult.NotFound.getOrNull())
-        assertEquals(null, ApiResult.RateLimited(null).getOrNull())
+        assertNull(ApiResult.NotFound.getOrNull())
+        assertNull(ApiResult.RateLimited(null).getOrNull())
     }
 }
