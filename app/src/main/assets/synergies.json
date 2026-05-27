@@ -1,0 +1,7 @@
+{
+  "steve": ["sonic", "fox"],
+  "sonic": ["steve", "snake"],
+  "snake": ["sonic", "sephiroth"],
+  "fox": ["steve", "sephiroth"],
+  "sephiroth": ["snake", "fox"]
+}

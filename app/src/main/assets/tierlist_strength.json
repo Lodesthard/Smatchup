@@ -1,0 +1,9 @@
+{
+  "name": "strength",
+  "version": "UltRank 2026 v4 (seed)",
+  "updatedAt": 1746489600000,
+  "entries": [
+    { "tier": "S_PLUS", "chars": ["steve", "sonic", "snake"] },
+    { "tier": "S",      "chars": ["fox", "sephiroth"] }
+  ]
+}

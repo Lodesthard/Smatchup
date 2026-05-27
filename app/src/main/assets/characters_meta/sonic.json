@@ -1,0 +1,16 @@
+{
+  "id": "sonic",
+  "name": "Sonic",
+  "series": "Sonic the Hedgehog",
+  "combos": [
+    "Up-throw → up-air at low %",
+    "Down-throw → fair",
+    "Spindash (B) → reads into bair"
+  ],
+  "gameplan": "Snowball lead with speed, condition with spindash, bair for kill.",
+  "moves_utility": {
+    "bair": "Primary kill move.",
+    "spindash": "Whiff bait; do NOT throw out raw vs grounded opponents.",
+    "uair": "Combo extender, juggle tool."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "difficulty",
+  "version": "Game8 2026 (seed)",
+  "updatedAt": 1746489600000,
+  "entries": [
+    { "tier": "S",      "chars": ["fox", "steve"] },
+    { "tier": "A",      "chars": ["sephiroth"] },
+    { "tier": "B",      "chars": ["sonic", "snake"] }
+  ]
+}

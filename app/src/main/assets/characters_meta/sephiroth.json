@@ -1,0 +1,16 @@
+{
+  "id": "sephiroth",
+  "name": "Sephiroth",
+  "series": "Final Fantasy",
+  "combos": [
+    "Down-tilt → up-air",
+    "Up-throw → up-air (kill confirm at high %)",
+    "Side-B (Octaslash) read"
+  ],
+  "gameplan": "Disjoint wall with Masamune. Stay just out of opponent's range, fish for kills with neutral-B (Flare).",
+  "moves_utility": {
+    "fair": "Big disjointed swing; safe on shield spaced.",
+    "neutral_b": "Flare/Megaflare; can be charged & released for huge damage.",
+    "side_b": "Octaslash; mix-up burst movement."
+  }
+}
