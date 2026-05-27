@@ -8,11 +8,13 @@ import javax.crypto.spec.PBEKeySpec
 object PasswordHasher {
 
     private const val ALGORITHM = "PBKDF2WithHmacSHA256"
+
+    // 120 000 chosen for mobile device performance (single-user personal app).
+    // OWASP 2023 minimum for PBKDF2-SHA256 is 600 000; revisit when targeting shared/server auth.
     private const val ITERATIONS = 120_000
     private const val KEY_LENGTH_BITS = 256
     private const val SALT_BYTES = 16
 
-    private val factory: SecretKeyFactory = SecretKeyFactory.getInstance(ALGORITHM)
     private val rng = SecureRandom()
     private val encoder: Base64.Encoder = Base64.getEncoder()
     private val decoder: Base64.Decoder = Base64.getDecoder()
@@ -26,6 +28,9 @@ object PasswordHasher {
     fun hash(password: String, saltBase64: String): String {
         val saltBytes = decoder.decode(saltBase64)
         val spec = PBEKeySpec(password.toCharArray(), saltBytes, ITERATIONS, KEY_LENGTH_BITS)
+        // SecretKeyFactory.generateSecret is not guaranteed thread-safe on a shared instance,
+        // so instantiate per-call. getInstance hits an internal provider cache (cheap).
+        val factory = SecretKeyFactory.getInstance(ALGORITHM)
         val key = factory.generateSecret(spec)
         return encoder.encodeToString(key.encoded)
     }
