@@ -14,6 +14,7 @@ import com.example.smatchup.data.cache.CacheManager
 import com.example.smatchup.data.cache.RateLimiter
 import com.example.smatchup.data.cache.SystemClock
 import com.example.smatchup.data.local.SmatchupDatabase
+import com.example.smatchup.data.repository.BestPlayerRepository
 import com.example.smatchup.data.repository.CharacterRepository
 
 class AppContainer(context: Context) {
@@ -38,4 +39,5 @@ class AppContainer(context: Context) {
     val smashWikiApi  = SmashWikiApi(httpClient)
 
     val characterRepository: CharacterRepository = CharacterRepository(jsonAssetLoader)
+    val bestPlayerRepository: BestPlayerRepository = BestPlayerRepository(jsonAssetLoader)
 }
