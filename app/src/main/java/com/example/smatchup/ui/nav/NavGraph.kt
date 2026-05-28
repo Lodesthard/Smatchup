@@ -16,6 +16,8 @@ import com.example.smatchup.ui.character.CharacterDetailScreen
 import com.example.smatchup.ui.character.CharacterListScreen
 import com.example.smatchup.ui.home.HomeRoutes
 import com.example.smatchup.ui.home.HomeScreen
+import com.example.smatchup.ui.matchup.MatchupDetailScreen
+import com.example.smatchup.ui.matchup.MatchupPickerScreen
 import com.example.smatchup.ui.splash.SplashScreen
 import com.example.smatchup.ui.theme.SmatchupColors
 import com.example.smatchup.ui.theme.wolBackground
@@ -67,14 +69,28 @@ fun SmatchupNavGraph() {
                 ),
             )
         }
-        composable(Screen.MatchupPicker.route) { PlaceholderScreen("Match-up picker — sub-project 4") }
+        composable(Screen.MatchupPicker.route) {
+            MatchupPickerScreen(onPairReady = { a, b ->
+                nav.navigate(Screen.MatchupDetail.buildRoute(a, b))
+            })
+        }
         composable(
             route = Screen.MatchupDetail.route,
             arguments = listOf(
                 navArgument(Screen.MatchupDetail.ARG_CHAR_A) { type = NavType.StringType },
                 navArgument(Screen.MatchupDetail.ARG_CHAR_B) { type = NavType.StringType },
             ),
-        ) { PlaceholderScreen("Match-up detail — sub-project 4") }
+        ) { backStackEntry ->
+            val a = backStackEntry.arguments?.getString(Screen.MatchupDetail.ARG_CHAR_A).orEmpty()
+            val b = backStackEntry.arguments?.getString(Screen.MatchupDetail.ARG_CHAR_B).orEmpty()
+            MatchupDetailScreen(
+                onBack = { nav.popBackStack() },
+                viewModel = androidx.lifecycle.viewmodel.compose.viewModel(
+                    factory = ViewModelFactory.fromApp().matchupDetail(a, b),
+                    key = "matchup-detail-$a-$b",
+                ),
+            )
+        }
         composable(Screen.Tierlist.route)  { PlaceholderScreen("Tier lists — sub-project 5") }
         composable(Screen.Favorites.route) { PlaceholderScreen("Favorites — sub-project 6") }
         composable(Screen.Profile.route)   { PlaceholderScreen("Profile — sub-project 6") }
