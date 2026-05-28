@@ -29,6 +29,9 @@ class JsonAssetLoader(private val context: Context) {
 
     fun seedBestPlayers(): JSONObject = loadObject("seed_best_players.json")!!
 
+    /** Full SSBU roster, ordered by canonical roster number. */
+    fun allCharacters(): JSONArray = loadArray("characters.json")!!
+
     private fun loadObject(path: String): JSONObject? = readString(path)?.let { JSONObject(it) }
     private fun loadArray(path: String): JSONArray? = readString(path)?.let { JSONArray(it) }
 
