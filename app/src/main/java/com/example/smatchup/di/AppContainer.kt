@@ -17,6 +17,7 @@ import com.example.smatchup.data.local.SmatchupDatabase
 import com.example.smatchup.data.repository.BestPlayerRepository
 import com.example.smatchup.data.repository.CharacterRepository
 import com.example.smatchup.data.repository.MatchupRepository
+import com.example.smatchup.data.repository.TierlistRepository
 import com.example.smatchup.data.winrate.WinrateAggregator
 import com.example.smatchup.data.winrate.WinrateComputer
 import com.example.smatchup.domain.model.ApiResult
@@ -51,6 +52,8 @@ class AppContainer(context: Context) {
     val bestPlayerRepository: BestPlayerRepository = BestPlayerRepository(jsonAssetLoader)
 
     val matchupRepository: MatchupRepository = MatchupRepository(jsonAssetLoader)
+
+    val tierlistRepository: TierlistRepository = TierlistRepository(jsonAssetLoader, characterRepository)
 
     val winrateComputer: WinrateComputer = WinrateComputer(
         cacheDao = database.cacheDao(),
