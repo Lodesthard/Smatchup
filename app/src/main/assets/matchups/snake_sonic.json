@@ -1,0 +1,12 @@
+{
+  "charA": "snake",
+  "charB": "sonic",
+  "gameplanA": ["Lay grenades and C4 to wall Sonic's approach", "Up-tilt for early kills when Sonic commits", "Edgeguard with Nikita"],
+  "gameplanB": ["Pick up grenades and throw them back", "Bait DACUS and committed tilts", "Run down Snake's slow frame data"],
+  "strongMovesA": ["up-tilt", "grenade pickups", "f-tilt"],
+  "strongMovesB": ["bair", "spindash whiff-punish", "fast movement"],
+  "punishableMovesA": ["slow aerials", "committed up-tilt"],
+  "punishableMovesB": ["raw spindash", "dair landings"],
+  "stagesForA": { "ban": ["sv"], "counterpick": ["fd", "town"] },
+  "stagesForB": { "ban": ["bf"], "counterpick": ["sv", "kalos"] }
+}

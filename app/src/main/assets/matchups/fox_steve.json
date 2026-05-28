@@ -1,0 +1,12 @@
+{
+  "charA": "fox",
+  "charB": "steve",
+  "gameplanA": ["Pressure with lasers to deny mining", "Frame-1 nair to break the wall", "Convert openings to up-air ladders"],
+  "gameplanB": ["Wall fast characters with blocks", "Don't get opened up — Fox kills off one touch", "Anvil to cover Fox's landings"],
+  "strongMovesA": ["nair", "up-smash", "shine OoS"],
+  "strongMovesB": ["block pillar", "side-b", "up-tilt"],
+  "punishableMovesA": ["committed side-b", "whiffed up-smash"],
+  "punishableMovesB": ["slow OoS", "predictable mining"],
+  "stagesForA": { "ban": ["town"], "counterpick": ["bf", "ps2"] },
+  "stagesForB": { "ban": ["sv"], "counterpick": ["fd"] }
+}
