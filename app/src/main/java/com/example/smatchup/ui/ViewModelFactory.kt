@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.smatchup.SmatchupApp
 import com.example.smatchup.di.AppContainer
+import com.example.smatchup.ui.character.CharacterDetailViewModel
 import com.example.smatchup.ui.character.CharacterListViewModel
 import com.example.smatchup.ui.home.HomeViewModel
 
@@ -15,6 +16,21 @@ class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.
         CharacterListViewModel::class.java -> CharacterListViewModel(container.characterRepository) as T
         else -> error("Unknown ViewModel ${modelClass.name}")
     }
+
+    /** Parameterized factory for `CharacterDetailViewModel(charId)`. */
+    fun characterDetail(charId: String): ViewModelProvider.Factory =
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                require(modelClass == CharacterDetailViewModel::class.java)
+                return CharacterDetailViewModel(
+                    charId = charId,
+                    repo = container.characterRepository,
+                    bestPlayerRepo = container.bestPlayerRepository,
+                    youTubeApi = container.youtubeApi,
+                ) as T
+            }
+        }
 
     companion object {
         fun fromApp(): ViewModelFactory = ViewModelFactory(SmatchupApp.instance.container)

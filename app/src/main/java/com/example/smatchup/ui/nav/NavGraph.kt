@@ -11,6 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.smatchup.ui.ViewModelFactory
+import com.example.smatchup.ui.character.CharacterDetailScreen
 import com.example.smatchup.ui.character.CharacterListScreen
 import com.example.smatchup.ui.home.HomeRoutes
 import com.example.smatchup.ui.home.HomeScreen
@@ -55,7 +57,15 @@ fun SmatchupNavGraph() {
             arguments = listOf(navArgument(Screen.CharacterDetail.ARG_CHAR_ID) { type = NavType.StringType }),
         ) { backStackEntry ->
             val charId = backStackEntry.arguments?.getString(Screen.CharacterDetail.ARG_CHAR_ID).orEmpty()
-            PlaceholderScreen("Character detail — $charId")
+            CharacterDetailScreen(
+                charId = charId,
+                onCharacterClick = { otherId -> nav.navigate(Screen.CharacterDetail.buildRoute(otherId)) },
+                onBack = { nav.popBackStack() },
+                viewModel = androidx.lifecycle.viewmodel.compose.viewModel(
+                    factory = ViewModelFactory.fromApp().characterDetail(charId),
+                    key = "character-detail-$charId",
+                ),
+            )
         }
         composable(Screen.MatchupPicker.route) { PlaceholderScreen("Match-up picker — sub-project 4") }
         composable(
