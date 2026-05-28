@@ -14,6 +14,7 @@ import com.example.smatchup.data.cache.CacheManager
 import com.example.smatchup.data.cache.RateLimiter
 import com.example.smatchup.data.cache.SystemClock
 import com.example.smatchup.data.local.SmatchupDatabase
+import com.example.smatchup.data.repository.CharacterRepository
 
 class AppContainer(context: Context) {
 
@@ -35,4 +36,6 @@ class AppContainer(context: Context) {
     val startGgApi    = StartGgApi(httpClient, token = BuildConfig.START_GG_TOKEN, rateLimiter = startGgRateLimiter)
     val youtubeApi    = YouTubeApi(httpClient, apiKey = BuildConfig.YOUTUBE_API_KEY)
     val smashWikiApi  = SmashWikiApi(httpClient)
+
+    val characterRepository: CharacterRepository = CharacterRepository(jsonAssetLoader)
 }
