@@ -38,6 +38,11 @@ class AppContainer(context: Context) {
     val youtubeApi    = YouTubeApi(httpClient, apiKey = BuildConfig.YOUTUBE_API_KEY)
     val smashWikiApi  = SmashWikiApi(httpClient)
 
-    val characterRepository: CharacterRepository = CharacterRepository(jsonAssetLoader)
+    val characterRepository: CharacterRepository = CharacterRepository(
+        loader = jsonAssetLoader,
+        ultimateApi = ultimateApi,
+        cacheDao = database.cacheDao(),
+        cacheManager = cacheManager,
+    )
     val bestPlayerRepository: BestPlayerRepository = BestPlayerRepository(jsonAssetLoader)
 }

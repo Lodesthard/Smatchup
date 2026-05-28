@@ -1,7 +1,13 @@
 package com.example.smatchup.data.repository
 
 import com.example.smatchup.data.api.MoveParser
+import com.example.smatchup.data.api.UltimateApi
 import com.example.smatchup.data.assets.JsonAssetLoader
+import com.example.smatchup.data.cache.CacheManager
+import com.example.smatchup.data.cache.CacheTtl
+import com.example.smatchup.data.local.dao.CacheDao
+import com.example.smatchup.data.local.entity.CachedFramedataEntity
+import com.example.smatchup.domain.model.ApiResult
 import com.example.smatchup.domain.model.Character
 import com.example.smatchup.domain.model.CharacterDetail
 import com.example.smatchup.domain.model.FramedataSource
@@ -22,7 +28,12 @@ private val STAGE_NAMES: Map<String, String> = mapOf(
     "lylat"  to "Lylat Cruise",
 )
 
-class CharacterRepository(private val loader: JsonAssetLoader) {
+class CharacterRepository(
+    private val loader: JsonAssetLoader,
+    private val ultimateApi: UltimateApi? = null,
+    private val cacheDao: CacheDao? = null,
+    private val cacheManager: CacheManager? = null,
+) {
 
     suspend fun loadRoster(): List<Character> = withContext(Dispatchers.IO) {
         val arr = loader.allCharacters()
@@ -79,6 +90,42 @@ class CharacterRepository(private val loader: JsonAssetLoader) {
         val raw = loader.framedata(charId)?.toString() ?: return@withContext emptyList()
         MoveParser.parse(raw)
     }
+
+    /**
+     * Resolve framedata: cache → API → bundled JSON. Returns the parsed list and the source tag.
+     * If api/cache deps are null (tests), skips straight to bundled.
+     */
+    suspend fun framedataWithFallback(charId: String): Pair<List<Move>, FramedataSource> =
+        withContext(Dispatchers.IO) {
+            val cached = cacheDao?.getFramedata(charId)
+            if (cached != null && cacheManager != null &&
+                cacheManager.isFresh(cached.fetchedAt, CacheTtl.FRAMEDATA_MS)
+            ) {
+                val parsed = MoveParser.parse(cached.jsonBlob)
+                if (parsed.isNotEmpty()) return@withContext parsed to FramedataSource.REMOTE
+            }
+
+            if (ultimateApi != null) {
+                val r = ultimateApi.getMovesRaw(charId)
+                if (r is ApiResult.Success) {
+                    val parsed = MoveParser.parse(r.data)
+                    if (parsed.isNotEmpty()) {
+                        cacheDao?.upsertFramedata(
+                            CachedFramedataEntity(
+                                charId = charId,
+                                jsonBlob = r.data,
+                                fetchedAt = System.currentTimeMillis(),
+                            ),
+                        )
+                        return@withContext parsed to FramedataSource.REMOTE
+                    }
+                }
+            }
+
+            val bundled = framedataFromBundle(charId)
+            val src = if (bundled.isNotEmpty()) FramedataSource.BUNDLED else FramedataSource.NONE
+            bundled to src
+        }
 
     private fun org.json.JSONArray.toStages(verdict: StageVerdict): List<Stage> =
         (0 until length()).map { i ->
