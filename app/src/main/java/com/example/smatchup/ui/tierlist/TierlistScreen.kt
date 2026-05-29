@@ -3,17 +3,17 @@ package com.example.smatchup.ui.tierlist
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -97,7 +97,6 @@ private fun ToggleOpt(name: String, label: String, selected: String, onSelect: (
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TierRow(group: TierGroup, onCharacterClick: (String) -> Unit) {
     Row(
@@ -109,19 +108,19 @@ private fun TierRow(group: TierGroup, onCharacterClick: (String) -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TierBadge(tier = group.tier)
-        FlowRow(
-            modifier = Modifier.padding(start = 8.dp),
+        Row(
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             group.characters.forEach { c ->
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    PortraitOrb(
-                        charId = c.id,
-                        size = 40.dp,
-                        modifier = Modifier.clickable { onCharacterClick(c.id) },
-                    )
-                }
+                PortraitOrb(
+                    charId = c.id,
+                    size = 40.dp,
+                    modifier = Modifier.clickable { onCharacterClick(c.id) },
+                )
             }
         }
     }
