@@ -14,8 +14,10 @@ import com.example.smatchup.data.cache.CacheManager
 import com.example.smatchup.data.cache.RateLimiter
 import com.example.smatchup.data.cache.SystemClock
 import com.example.smatchup.data.local.SmatchupDatabase
+import com.example.smatchup.data.repository.AuthRepository
 import com.example.smatchup.data.repository.BestPlayerRepository
 import com.example.smatchup.data.repository.CharacterRepository
+import com.example.smatchup.data.repository.FavoritesRepository
 import com.example.smatchup.data.repository.MatchupRepository
 import com.example.smatchup.data.repository.TierlistRepository
 import com.example.smatchup.data.winrate.WinrateAggregator
@@ -54,6 +56,12 @@ class AppContainer(context: Context) {
     val matchupRepository: MatchupRepository = MatchupRepository(jsonAssetLoader)
 
     val tierlistRepository: TierlistRepository = TierlistRepository(jsonAssetLoader, characterRepository)
+
+    val authRepository: AuthRepository = AuthRepository(
+        userDao = database.userDao(),
+        sessionDao = database.sessionDao(),
+    )
+    val favoritesRepository: FavoritesRepository = FavoritesRepository(database.favoritesDao())
 
     val winrateComputer: WinrateComputer = WinrateComputer(
         cacheDao = database.cacheDao(),
