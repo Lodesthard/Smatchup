@@ -51,7 +51,7 @@ class AppContainer(context: Context) {
         cacheDao = database.cacheDao(),
         cacheManager = cacheManager,
     )
-    val bestPlayerRepository: BestPlayerRepository = BestPlayerRepository(jsonAssetLoader)
+    val bestPlayerRepository: BestPlayerRepository = BestPlayerRepository(jsonAssetLoader, database.cacheDao())
 
     val matchupRepository: MatchupRepository = MatchupRepository(jsonAssetLoader)
 

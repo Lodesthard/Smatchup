@@ -2,6 +2,7 @@
 package com.example.smatchup
 
 import android.app.Application
+import com.example.smatchup.data.work.BestPlayersWorker
 import com.example.smatchup.di.AppContainer
 
 class SmatchupApp : Application() {
@@ -12,6 +13,7 @@ class SmatchupApp : Application() {
         super.onCreate()
         instance = this
         container = AppContainer(this)
+        BestPlayersWorker.schedule(this)
     }
 
     companion object {
