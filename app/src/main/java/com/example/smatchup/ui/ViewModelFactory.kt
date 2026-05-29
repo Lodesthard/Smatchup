@@ -9,6 +9,7 @@ import com.example.smatchup.ui.character.CharacterListViewModel
 import com.example.smatchup.ui.home.HomeViewModel
 import com.example.smatchup.ui.matchup.MatchupDetailViewModel
 import com.example.smatchup.ui.matchup.MatchupPickerViewModel
+import com.example.smatchup.ui.tierlist.TierlistViewModel
 
 class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.Factory {
 
@@ -17,6 +18,7 @@ class ViewModelFactory(private val container: AppContainer) : ViewModelProvider.
         HomeViewModel::class.java          -> HomeViewModel() as T
         CharacterListViewModel::class.java -> CharacterListViewModel(container.characterRepository) as T
         MatchupPickerViewModel::class.java -> MatchupPickerViewModel(container.characterRepository) as T
+        TierlistViewModel::class.java      -> TierlistViewModel(container.tierlistRepository) as T
         else -> error("Unknown ViewModel ${modelClass.name}")
     }
 
