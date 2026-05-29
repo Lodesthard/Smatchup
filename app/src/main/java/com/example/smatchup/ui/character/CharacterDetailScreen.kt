@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.smatchup.R
 import com.example.smatchup.ui.ViewModelFactory
+import com.example.smatchup.ui.components.BackButton
 import com.example.smatchup.ui.components.FavoriteHeart
 import com.example.smatchup.ui.components.FavoriteToggleViewModel
 import com.example.smatchup.ui.character.tabs.CombosTab
@@ -80,6 +81,11 @@ fun CharacterDetailScreen(
                 }
             }
         }
+
+        BackButton(
+            onBack = onBack,
+            modifier = Modifier.align(Alignment.TopStart).padding(top = 8.dp, start = 8.dp),
+        )
 
         if (state.detail != null) {
             FavoriteHeart(

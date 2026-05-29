@@ -102,6 +102,8 @@
     <string name="frame_col_move">Move</string>
     <string name="frame_col_startup">Startup</string>
     <string name="frame_col_total">Total</string>
+    <string name="frame_col_endlag">End lag</string>
+    <string name="frame_col_shield">On shield</string>
     <string name="frame_col_dmg">Dmg</string>
     <string name="synergy_empty">No synergies defined yet.</string>
     <string name="stages_empty">No stage recommendations yet.</string>
@@ -110,10 +112,24 @@
     <string name="video_empty">No recent VOD found.</string>
     <string name="video_feature">Latest YouTube match</string>
     <string name="video_instructions">Add YOUTUBE_API_KEY to local.properties and rebuild.</string>
+    <string name="video_unavailable">This video can\'t be embedded.</string>
+    <string name="video_open_youtube">Watch on YouTube</string>
 
     <!-- Components -->
     <string name="token_gated_title">🔒 %1$s unavailable</string>
     <string name="favorite_remove">Remove from favorites</string>
     <string name="favorite_add">Add to favorites</string>
     <string name="cd_character_orb">%1$s portrait</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_characters">Characters</string>
+    <string name="nav_matchup">Match-up</string>
+    <string name="nav_tierlists">Tiers</string>
+    <string name="nav_favorites">Favorites</string>
+
+    <!-- Stage verdicts (match-up detail) -->
+    <string name="verdict_ban">ban</string>
+    <string name="verdict_counterpick">counterpick</string>
+    <string name="verdict_neutral">neutral</string>
 </resources>

@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 data class MatchupPickerUiState(
     val isLoading: Boolean = true,
     val roster: List<Character> = emptyList(),
+    val query: String = "",
+    val visible: List<Character> = emptyList(),
     val slotA: String? = null,
     val slotB: String? = null,
     val ready: Pair<String, String>? = null,
@@ -30,8 +32,18 @@ class MatchupPickerViewModel(
     init {
         viewModelScope.launch {
             val r = try { loadRoster() } catch (_: Throwable) { emptyList() }
-            _state.update { it.copy(isLoading = false, roster = r) }
+            _state.update { s -> s.copy(isLoading = false, roster = r, visible = applyFilter(r, s.query)) }
         }
+    }
+
+    fun setQuery(q: String) {
+        _state.update { s -> s.copy(query = q, visible = applyFilter(s.roster, q)) }
+    }
+
+    private fun applyFilter(roster: List<Character>, query: String): List<Character> {
+        val q = query.trim().lowercase()
+        if (q.isEmpty()) return roster
+        return roster.filter { it.name.lowercase().contains(q) }
     }
 
     fun pick(charId: String) {

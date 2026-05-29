@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.smatchup.R
 import com.example.smatchup.domain.model.Matchup
 import com.example.smatchup.ui.ViewModelFactory
+import com.example.smatchup.ui.components.BackButton
 import com.example.smatchup.ui.components.EmptyState
 import com.example.smatchup.ui.components.FavoriteHeart
 import com.example.smatchup.ui.components.FavoriteToggleViewModel
@@ -79,9 +80,20 @@ fun MatchupDetailScreen(
                                     PairedSplit(mu.charA, mu.punishableMovesA, mu.charB, mu.punishableMovesB)
                                 }
                                 MatchupDetailTab.STAGES -> SectionCard(stringResource(R.string.section_stages)) {
+                                    val ban = stringResource(R.string.verdict_ban)
+                                    val cp = stringResource(R.string.verdict_counterpick)
+                                    val neutral = stringResource(R.string.verdict_neutral)
+                                    fun label(s: com.example.smatchup.domain.model.Stage): String {
+                                        val v = when (s.verdict) {
+                                            com.example.smatchup.domain.model.StageVerdict.BAN -> ban
+                                            com.example.smatchup.domain.model.StageVerdict.COUNTERPICK -> cp
+                                            com.example.smatchup.domain.model.StageVerdict.NEUTRAL -> neutral
+                                        }
+                                        return "$v: ${s.displayName}"
+                                    }
                                     PairedSplit(
-                                        mu.charA, mu.stagesForA.map { "${it.verdict.name.lowercase()}: ${it.displayName}" },
-                                        mu.charB, mu.stagesForB.map { "${it.verdict.name.lowercase()}: ${it.displayName}" },
+                                        mu.charA, mu.stagesForA.map { label(it) },
+                                        mu.charB, mu.stagesForB.map { label(it) },
                                     )
                                 }
                                 MatchupDetailTab.VIDEO -> {
@@ -100,6 +112,11 @@ fun MatchupDetailScreen(
                 }
             }
         }
+
+        BackButton(
+            onBack = onBack,
+            modifier = Modifier.align(Alignment.TopStart).padding(top = 8.dp, start = 8.dp),
+        )
 
         state.matchup?.let { mu ->
             FavoriteHeart(

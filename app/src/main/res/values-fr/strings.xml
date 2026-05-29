@@ -102,6 +102,8 @@
     <string name="frame_col_move">Coup</string>
     <string name="frame_col_startup">Startup</string>
     <string name="frame_col_total">Total</string>
+    <string name="frame_col_endlag">Lag fin</string>
+    <string name="frame_col_shield">Sur bouclier</string>
     <string name="frame_col_dmg">Dég.</string>
     <string name="synergy_empty">Pas encore de synergies définies.</string>
     <string name="stages_empty">Pas encore de recommandations de stages.</string>
@@ -110,10 +112,24 @@
     <string name="video_empty">Aucune VOD récente trouvée.</string>
     <string name="video_feature">Dernier match YouTube</string>
     <string name="video_instructions">Ajoute YOUTUBE_API_KEY dans local.properties et recompile.</string>
+    <string name="video_unavailable">Cette vidéo ne peut pas être intégrée.</string>
+    <string name="video_open_youtube">Voir sur YouTube</string>
 
     <!-- Components -->
     <string name="token_gated_title">🔒 %1$s indisponible</string>
     <string name="favorite_remove">Retirer des favoris</string>
     <string name="favorite_add">Ajouter aux favoris</string>
     <string name="cd_character_orb">Portrait de %1$s</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_characters">Persos</string>
+    <string name="nav_matchup">Match-up</string>
+    <string name="nav_tierlists">Tiers</string>
+    <string name="nav_favorites">Favoris</string>
+
+    <!-- Stage verdicts (match-up detail) -->
+    <string name="verdict_ban">ban</string>
+    <string name="verdict_counterpick">counterpick</string>
+    <string name="verdict_neutral">neutre</string>
 </resources>
