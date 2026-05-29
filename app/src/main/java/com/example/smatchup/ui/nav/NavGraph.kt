@@ -18,6 +18,10 @@ import com.example.smatchup.ui.home.HomeRoutes
 import com.example.smatchup.ui.home.HomeScreen
 import com.example.smatchup.ui.matchup.MatchupDetailScreen
 import com.example.smatchup.ui.matchup.MatchupPickerScreen
+import com.example.smatchup.ui.auth.LoginScreen
+import com.example.smatchup.ui.auth.RegisterScreen
+import com.example.smatchup.ui.favorites.FavoritesScreen
+import com.example.smatchup.ui.profile.ProfileScreen
 import com.example.smatchup.ui.splash.SplashScreen
 import com.example.smatchup.ui.tierlist.TierlistScreen
 import com.example.smatchup.ui.theme.SmatchupColors
@@ -29,8 +33,9 @@ fun SmatchupNavGraph() {
     NavHost(navController = nav, startDestination = Screen.Splash.route) {
 
         composable(Screen.Splash.route) {
-            SplashScreen(onSplashDone = {
-                nav.navigate(Screen.Home.route) {
+            SplashScreen(onResolved = { loggedIn ->
+                val dest = if (loggedIn) Screen.Home.route else Screen.Login.route
+                nav.navigate(dest) {
                     popUpTo(Screen.Splash.route) { inclusive = true }
                 }
             })
@@ -97,10 +102,29 @@ fun SmatchupNavGraph() {
                 nav.navigate(Screen.CharacterDetail.buildRoute(charId))
             })
         }
-        composable(Screen.Favorites.route) { PlaceholderScreen("Favorites — sub-project 6") }
-        composable(Screen.Profile.route)   { PlaceholderScreen("Profile — sub-project 6") }
-        composable(Screen.Login.route)     { PlaceholderScreen("Login — sub-project 6") }
-        composable(Screen.Register.route)  { PlaceholderScreen("Register — sub-project 6") }
+        composable(Screen.Favorites.route) {
+            FavoritesScreen(
+                onCharacterClick = { charId -> nav.navigate(Screen.CharacterDetail.buildRoute(charId)) },
+                onMatchupClick = { a, b -> nav.navigate(Screen.MatchupDetail.buildRoute(a, b)) },
+            )
+        }
+        composable(Screen.Profile.route) {
+            ProfileScreen(
+                onLoggedOut = { nav.navigate(Screen.Login.route) { popUpTo(0) { inclusive = true } } },
+            )
+        }
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onLoggedIn = { nav.navigate(Screen.Home.route) { popUpTo(Screen.Login.route) { inclusive = true } } },
+                onGoToRegister = { nav.navigate(Screen.Register.route) },
+            )
+        }
+        composable(Screen.Register.route) {
+            RegisterScreen(
+                onRegistered = { nav.navigate(Screen.Home.route) { popUpTo(Screen.Login.route) { inclusive = true } } },
+                onGoToLogin = { nav.popBackStack() },
+            )
+        }
     }
 }
 

@@ -22,8 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.smatchup.domain.model.Matchup
+import com.example.smatchup.ui.ViewModelFactory
 import com.example.smatchup.ui.components.EmptyState
+import com.example.smatchup.ui.components.FavoriteHeart
+import com.example.smatchup.ui.components.FavoriteToggleViewModel
 import com.example.smatchup.ui.components.LoadingOrb
 import com.example.smatchup.ui.components.PairedSplit
 import com.example.smatchup.ui.components.PortraitOrb
@@ -87,6 +91,16 @@ fun MatchupDetailScreen(
                     }
                 }
             }
+        }
+
+        state.matchup?.let { mu ->
+            FavoriteHeart(
+                viewModel = viewModel<FavoriteToggleViewModel>(
+                    factory = ViewModelFactory.fromApp().favoriteMatchup(mu.charA, mu.charB),
+                    key = "fav-mu-${mu.charA}-${mu.charB}",
+                ),
+                modifier = Modifier.align(Alignment.TopEnd).padding(top = 8.dp, end = 8.dp),
+            )
         }
     }
 }
