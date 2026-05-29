@@ -1,5 +1,7 @@
 package com.example.smatchup.ui.character
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,8 +11,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.smatchup.R
 import com.example.smatchup.ui.ViewModelFactory
 import com.example.smatchup.ui.components.FavoriteHeart
 import com.example.smatchup.ui.components.FavoriteToggleViewModel
@@ -44,8 +48,8 @@ fun CharacterDetailScreen(
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { LoadingOrb() }
             }
             state.error != null -> EmptyState(
-                message = "Erreur : ${state.error}",
-                ctaText = "Retour",
+                message = stringResource(R.string.error_generic, state.error ?: ""),
+                ctaText = stringResource(R.string.back),
                 onCta = onBack,
             )
             state.detail != null -> {
@@ -53,18 +57,25 @@ fun CharacterDetailScreen(
                 Column(modifier = Modifier.fillMaxSize()) {
                     DetailHero(character = detail.character)
                     DetailTabBar(selected = state.selectedTab, onSelect = viewModel::selectTab)
-                    when (state.selectedTab) {
-                        DetailTab.COMBOS   -> CombosTab(combos = detail.combos)
-                        DetailTab.GAMEPLAN -> GameplanTab(gameplan = detail.gameplan)
-                        DetailTab.MOVES    -> MovesTab(movesUtility = detail.movesUtility)
-                        DetailTab.FRAME    -> FrameTab(moves = state.framedata, source = state.framedataSource)
-                        DetailTab.SYNERGY  -> SynergyTab(partners = detail.synergyPartners, onCharacterClick = onCharacterClick)
-                        DetailTab.STAGES   -> StagesTab(ban = detail.stagesBan, counterpick = detail.stagesCounterpick)
-                        DetailTab.VIDEO    -> VideoTab(
-                            videoUrl = state.lastVideoUrl,
-                            videoTitle = state.lastVideoTitle,
-                            tokenGated = state.lastVideoTokenGated,
-                        )
+                    Crossfade(
+                        targetState = state.selectedTab,
+                        animationSpec = tween(180),
+                        modifier = Modifier.weight(1f).fillMaxSize(),
+                        label = "characterDetailTab",
+                    ) { tab ->
+                        when (tab) {
+                            DetailTab.COMBOS   -> CombosTab(combos = detail.combos)
+                            DetailTab.GAMEPLAN -> GameplanTab(gameplan = detail.gameplan)
+                            DetailTab.MOVES    -> MovesTab(movesUtility = detail.movesUtility)
+                            DetailTab.FRAME    -> FrameTab(moves = state.framedata, source = state.framedataSource)
+                            DetailTab.SYNERGY  -> SynergyTab(partners = detail.synergyPartners, onCharacterClick = onCharacterClick)
+                            DetailTab.STAGES   -> StagesTab(ban = detail.stagesBan, counterpick = detail.stagesCounterpick)
+                            DetailTab.VIDEO    -> VideoTab(
+                                videoUrl = state.lastVideoUrl,
+                                videoTitle = state.lastVideoTitle,
+                                tokenGated = state.lastVideoTokenGated,
+                            )
+                        }
                     }
                 }
             }

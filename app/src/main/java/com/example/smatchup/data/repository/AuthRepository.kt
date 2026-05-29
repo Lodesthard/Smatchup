@@ -10,9 +10,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
+/** Semantic auth failures; resolved to a localized message in the UI layer. */
+enum class AuthError {
+    FIELDS_REQUIRED,
+    INVALID_EMAIL,
+    PASSWORD_TOO_SHORT,
+    PASSWORD_MISMATCH,
+    INVALID_CREDENTIALS,
+    PSEUDO_TAKEN,
+    EMAIL_TAKEN,
+    ACCOUNT_EXISTS,
+    UNKNOWN,
+}
+
 sealed interface AuthResult {
     data class Success(val userId: Long) : AuthResult
-    data class Failure(val reason: String) : AuthResult
+    data class Failure(val error: AuthError) : AuthResult
 }
 
 class AuthRepository(
@@ -24,8 +37,8 @@ class AuthRepository(
 
     suspend fun register(pseudo: String, email: String, password: String): AuthResult =
         withContext(Dispatchers.IO) {
-            if (userDao.findByPseudo(pseudo) != null) return@withContext AuthResult.Failure("Pseudo déjà pris")
-            if (userDao.findByEmail(email) != null) return@withContext AuthResult.Failure("Email déjà utilisé")
+            if (userDao.findByPseudo(pseudo) != null) return@withContext AuthResult.Failure(AuthError.PSEUDO_TAKEN)
+            if (userDao.findByEmail(email) != null) return@withContext AuthResult.Failure(AuthError.EMAIL_TAKEN)
             val salt = PasswordHasher.newSalt()
             val user = UserEntity(
                 pseudo = pseudo,
@@ -39,16 +52,16 @@ class AuthRepository(
                 setSession(id)
                 AuthResult.Success(id)
             } catch (e: Throwable) {
-                AuthResult.Failure("Compte déjà existant")
+                AuthResult.Failure(AuthError.ACCOUNT_EXISTS)
             }
         }
 
     suspend fun login(identifier: String, password: String): AuthResult =
         withContext(Dispatchers.IO) {
             val user = userDao.findByPseudo(identifier) ?: userDao.findByEmail(identifier)
-                ?: return@withContext AuthResult.Failure("Identifiants invalides")
+                ?: return@withContext AuthResult.Failure(AuthError.INVALID_CREDENTIALS)
             if (!PasswordHasher.verify(password, user.salt, user.passwordHash))
-                return@withContext AuthResult.Failure("Identifiants invalides")
+                return@withContext AuthResult.Failure(AuthError.INVALID_CREDENTIALS)
             setSession(user.id)
             AuthResult.Success(user.id)
         }

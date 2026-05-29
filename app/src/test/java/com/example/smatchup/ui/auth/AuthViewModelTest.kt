@@ -1,6 +1,7 @@
 package com.example.smatchup.ui.auth
 
 import app.cash.turbine.test
+import com.example.smatchup.data.repository.AuthError
 import com.example.smatchup.data.repository.AuthResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +25,7 @@ class AuthViewModelTest {
     @Test fun successfulLoginSetsLoggedIn() = runTest {
         val vm = AuthViewModel(
             doLogin = { _, _ -> AuthResult.Success(1L) },
-            doRegister = { _, _, _ -> AuthResult.Failure("unused") },
+            doRegister = { _, _, _ -> AuthResult.Failure(AuthError.UNKNOWN) },
         )
         vm.login("dim", "hunter2")
         vm.state.test {
@@ -37,21 +38,21 @@ class AuthViewModelTest {
 
     @Test fun failedLoginSetsError() = runTest {
         val vm = AuthViewModel(
-            doLogin = { _, _ -> AuthResult.Failure("Identifiants invalides") },
-            doRegister = { _, _, _ -> AuthResult.Failure("unused") },
+            doLogin = { _, _ -> AuthResult.Failure(AuthError.INVALID_CREDENTIALS) },
+            doRegister = { _, _, _ -> AuthResult.Failure(AuthError.UNKNOWN) },
         )
         vm.login("dim", "bad")
         vm.state.test {
             var s = awaitItem()
             while (s.error == null && !s.loggedIn) s = awaitItem()
-            assertEquals("Identifiants invalides", s.error)
+            assertEquals(AuthError.INVALID_CREDENTIALS, s.error)
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test fun registerValidatesPasswordConfirmLocally() = runTest {
         val vm = AuthViewModel(
-            doLogin = { _, _ -> AuthResult.Failure("unused") },
+            doLogin = { _, _ -> AuthResult.Failure(AuthError.UNKNOWN) },
             doRegister = { _, _, _ -> AuthResult.Success(1L) },
         )
         vm.register("dim", "dim@x.com", "hunter2", "MISMATCH")

@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.smatchup.ui.theme.SmatchupColors
 
@@ -31,7 +32,7 @@ fun DetailTabBar(
         DetailTab.entries.forEach { tab ->
             val isActive = tab == selected
             Text(
-                text = tab.label.uppercase(),
+                text = stringResource(tab.labelRes).uppercase(),
                 color = if (isActive) SmatchupColors.Gold else SmatchupColors.TextDim,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier

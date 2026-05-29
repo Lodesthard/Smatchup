@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.smatchup.R
 import com.example.smatchup.ui.theme.SmatchupColors
 
 @Composable
@@ -19,9 +21,9 @@ fun FavoriteHeart(
     val isFavorite by viewModel.isFavorite.collectAsState()
     IconButton(onClick = viewModel::toggle, modifier = modifier) {
         if (isFavorite) {
-            Icon(Icons.Filled.Favorite, contentDescription = "Retirer des favoris", tint = SmatchupColors.Gold)
+            Icon(Icons.Filled.Favorite, contentDescription = stringResource(R.string.favorite_remove), tint = SmatchupColors.Gold)
         } else {
-            Icon(Icons.Filled.FavoriteBorder, contentDescription = "Ajouter aux favoris", tint = SmatchupColors.TextDim)
+            Icon(Icons.Filled.FavoriteBorder, contentDescription = stringResource(R.string.favorite_add), tint = SmatchupColors.TextDim)
         }
     }
 }

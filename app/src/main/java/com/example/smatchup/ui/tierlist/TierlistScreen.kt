@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -23,9 +24,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.smatchup.R
 import com.example.smatchup.domain.model.TierGroup
 import com.example.smatchup.ui.ViewModelFactory
 import com.example.smatchup.ui.components.EmptyState
@@ -45,7 +48,7 @@ fun TierlistScreen(
 
     Column(modifier = modifier.wolBackground().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
-            text = "Tier List",
+            text = stringResource(R.string.tierlist_title),
             style = MaterialTheme.typography.displayMedium,
             color = SmatchupColors.Gold,
             modifier = Modifier.padding(top = 24.dp),
@@ -55,7 +58,7 @@ fun TierlistScreen(
         when {
             state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { LoadingOrb() }
             state.view == null || state.view!!.groups.isEmpty() ->
-                EmptyState(message = "Tier list indisponible.")
+                EmptyState(message = stringResource(R.string.tierlist_unavailable))
             else -> LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxSize()) {
                 items(items = state.view!!.groups, key = { it.tier.name }) { group ->
                     TierRow(group = group, onCharacterClick = onCharacterClick)
@@ -73,8 +76,8 @@ private fun Toggle(selected: String, onSelect: (String) -> Unit) {
             .clip(RoundedCornerShape(20.dp))
             .border(1.dp, SmatchupColors.Gold.copy(alpha = 0.4f), RoundedCornerShape(20.dp)),
     ) {
-        ToggleOpt("strength", "Force", selected, onSelect, Modifier.weight(1f))
-        ToggleOpt("difficulty", "Difficulté", selected, onSelect, Modifier.weight(1f))
+        ToggleOpt("strength", stringResource(R.string.tier_strength), selected, onSelect, Modifier.weight(1f))
+        ToggleOpt("difficulty", stringResource(R.string.tier_difficulty), selected, onSelect, Modifier.weight(1f))
     }
 }
 
@@ -116,11 +119,20 @@ private fun TierRow(group: TierGroup, onCharacterClick: (String) -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             group.characters.forEach { c ->
-                PortraitOrb(
-                    charId = c.id,
-                    size = 40.dp,
-                    modifier = Modifier.clickable { onCharacterClick(c.id) },
-                )
+                // 48 dp clickable target (≥ a11y minimum) around the 40 dp orb.
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clickable { onCharacterClick(c.id) },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    PortraitOrb(
+                        charId = c.id,
+                        size = 40.dp,
+                        pulse = false,
+                        contentDescription = c.name,
+                    )
+                }
             }
         }
     }

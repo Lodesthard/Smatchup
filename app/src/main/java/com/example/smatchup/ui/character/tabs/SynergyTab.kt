@@ -7,7 +7,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.smatchup.R
 import com.example.smatchup.domain.model.Character
 import com.example.smatchup.ui.components.EmptyState
 import com.example.smatchup.ui.components.OrbCard
@@ -19,7 +21,7 @@ fun SynergyTab(
     modifier: Modifier = Modifier,
 ) {
     if (partners.isEmpty()) {
-        EmptyState(message = "Pas encore de synergies définies.", modifier = modifier)
+        EmptyState(message = stringResource(R.string.synergy_empty), modifier = modifier)
         return
     }
     LazyVerticalGrid(

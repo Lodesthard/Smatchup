@@ -42,7 +42,7 @@ fun OrbCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        PortraitOrb(charId = label, size = 40.dp)
+        PortraitOrb(charId = label, size = 40.dp, pulse = false)
         Spacer(modifier = Modifier.size(8.dp))
         Text(
             text = label,

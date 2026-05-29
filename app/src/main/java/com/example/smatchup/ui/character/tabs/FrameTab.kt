@@ -11,7 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.smatchup.R
 import com.example.smatchup.domain.model.FramedataSource
 import com.example.smatchup.domain.model.Move
 import com.example.smatchup.ui.components.EmptyState
@@ -20,21 +22,21 @@ import com.example.smatchup.ui.theme.SmatchupColors
 @Composable
 fun FrameTab(moves: List<Move>, source: FramedataSource, modifier: Modifier = Modifier) {
     if (moves.isEmpty()) {
-        EmptyState(message = "Pas de framedata disponible pour ce personnage.", modifier = modifier)
+        EmptyState(message = stringResource(R.string.frame_empty), modifier = modifier)
         return
     }
     Column(modifier = modifier.padding(16.dp)) {
         Text(
-            text = "Source : ${source.name.lowercase()}",
+            text = stringResource(R.string.frame_source, source.name.lowercase()),
             style = MaterialTheme.typography.labelMedium,
             color = SmatchupColors.TextDim,
             modifier = Modifier.padding(bottom = 8.dp),
         )
         Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Move", color = SmatchupColors.Gold, modifier = Modifier.weight(2f))
-            Text("Startup", color = SmatchupColors.Gold, modifier = Modifier.weight(1f))
-            Text("Total", color = SmatchupColors.Gold, modifier = Modifier.weight(1f))
-            Text("Dmg", color = SmatchupColors.Gold, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.frame_col_move), color = SmatchupColors.Gold, modifier = Modifier.weight(2f))
+            Text(stringResource(R.string.frame_col_startup), color = SmatchupColors.Gold, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.frame_col_total), color = SmatchupColors.Gold, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.frame_col_dmg), color = SmatchupColors.Gold, modifier = Modifier.weight(1f))
         }
         LazyColumn {
             items(items = moves, key = { it.id }) { m ->
