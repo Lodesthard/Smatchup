@@ -19,6 +19,7 @@ import com.example.smatchup.ui.home.HomeScreen
 import com.example.smatchup.ui.matchup.MatchupDetailScreen
 import com.example.smatchup.ui.matchup.MatchupPickerScreen
 import com.example.smatchup.ui.splash.SplashScreen
+import com.example.smatchup.ui.tierlist.TierlistScreen
 import com.example.smatchup.ui.theme.SmatchupColors
 import com.example.smatchup.ui.theme.wolBackground
 
@@ -91,7 +92,11 @@ fun SmatchupNavGraph() {
                 ),
             )
         }
-        composable(Screen.Tierlist.route)  { PlaceholderScreen("Tier lists — sub-project 5") }
+        composable(Screen.Tierlist.route) {
+            TierlistScreen(onCharacterClick = { charId ->
+                nav.navigate(Screen.CharacterDetail.buildRoute(charId))
+            })
+        }
         composable(Screen.Favorites.route) { PlaceholderScreen("Favorites — sub-project 6") }
         composable(Screen.Profile.route)   { PlaceholderScreen("Profile — sub-project 6") }
         composable(Screen.Login.route)     { PlaceholderScreen("Login — sub-project 6") }
