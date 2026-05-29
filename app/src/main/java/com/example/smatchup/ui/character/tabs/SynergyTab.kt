@@ -31,7 +31,7 @@ fun SynergyTab(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(items = partners, key = { it.id }) { c ->
-            OrbCard(label = c.name, onClick = { onCharacterClick(c.id) })
+            OrbCard(label = c.name, charId = c.id, onClick = { onCharacterClick(c.id) })
         }
     }
 }

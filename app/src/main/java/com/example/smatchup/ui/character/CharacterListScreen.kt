@@ -104,6 +104,7 @@ fun CharacterListScreen(
                 items(items = state.visible, key = { it.id }) { c ->
                     OrbCard(
                         label = c.name,
+                        charId = c.id,
                         modifier = Modifier,
                         onClick = { onCharacterClick(c.id) },
                     )

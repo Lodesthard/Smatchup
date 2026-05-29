@@ -62,7 +62,7 @@ fun MatchupPickerScreen(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 items(items = state.roster, key = { it.id }) { c ->
-                    OrbCard(label = c.name, onClick = { viewModel.pick(c.id) })
+                    OrbCard(label = c.name, charId = c.id, onClick = { viewModel.pick(c.id) })
                 }
             }
         }

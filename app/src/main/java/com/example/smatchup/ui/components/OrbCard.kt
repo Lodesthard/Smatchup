@@ -23,6 +23,7 @@ import com.example.smatchup.ui.theme.SmatchupColors
 fun OrbCard(
     label: String,
     modifier: Modifier = Modifier,
+    charId: String = label,
     onClick: () -> Unit,
 ) {
     Column(
@@ -42,7 +43,7 @@ fun OrbCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        PortraitOrb(charId = label, size = 40.dp, pulse = false)
+        PortraitOrb(charId = charId, size = 40.dp, pulse = false, contentDescription = label)
         Spacer(modifier = Modifier.size(8.dp))
         Text(
             text = label,
