@@ -1,0 +1,17 @@
+{
+  "id": "steve",
+  "name": "Steve",
+  "series": "Minecraft",
+  "combos": [
+    "Block pillar → up-air → up-special (kill confirm with iron)",
+    "Down-tilt → up-air at low %",
+    "Side-B (iron axe) → reads"
+  ],
+  "gameplan": "Mine resources behind blocks, wall the opponent out with side-B, anvil for raw kills.",
+  "moves_utility": {
+    "fair": "Combo extender; safe on shield with TNT.",
+    "uair": "Combo finisher, kills at high %.",
+    "side_b": "Iron axe = ranged disjoint; gold = fast but weak.",
+    "anvil": "Raw kill option from above, callouts only."
+  }
+}

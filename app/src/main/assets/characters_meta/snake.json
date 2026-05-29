@@ -1,0 +1,16 @@
+{
+  "id": "snake",
+  "name": "Snake",
+  "series": "Metal Gear",
+  "combos": [
+    "Down-throw → up-tilt at low %",
+    "Grenade pickup → tilt or smash",
+    "Nikita → ledge punish"
+  ],
+  "gameplan": "Stage-control with grenades + C4. Force approach with explosives. Up-tilt for kill.",
+  "moves_utility": {
+    "utilt": "Primary kill move, kills very early.",
+    "ftilt": "Two-hit jab-like poke.",
+    "side_b": "Nikita; remote-piloted recovery harass."
+  }
+}

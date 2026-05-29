@@ -1,0 +1,18 @@
+{
+  "fighter": "Snake",
+  "moves": [
+    { "moveName": "jab", "startup": 4, "totalFrames": 18, "baseDamage": 2.5 },
+    { "moveName": "ftilt", "startup": 6, "totalFrames": 32, "baseDamage": 8.0 },
+    { "moveName": "utilt", "startup": 5, "totalFrames": 38, "baseDamage": 10.0 },
+    { "moveName": "dtilt", "startup": 11, "totalFrames": 36, "baseDamage": 11.0 },
+    { "moveName": "fair", "startup": 16, "totalFrames": 38, "baseDamage": 14.0 },
+    { "moveName": "bair", "startup": 10, "totalFrames": 35, "baseDamage": 13.0 },
+    { "moveName": "uair", "startup": 8, "totalFrames": 35, "baseDamage": 14.0 },
+    { "moveName": "dair", "startup": 14, "totalFrames": 40, "baseDamage": 11.0 },
+    { "moveName": "nair", "startup": 7, "totalFrames": 30, "baseDamage": 7.0 },
+    { "moveName": "neutral b", "startup": 27, "totalFrames": 90, "baseDamage": 5.0 },
+    { "moveName": "side b", "startup": 30, "totalFrames": 100, "baseDamage": 14.0 },
+    { "moveName": "up b", "startup": 3, "totalFrames": 70, "baseDamage": 0.0 },
+    { "moveName": "down b", "startup": 30, "totalFrames": 80, "baseDamage": 13.0 }
+  ]
+}

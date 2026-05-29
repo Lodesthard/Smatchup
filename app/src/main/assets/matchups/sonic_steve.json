@@ -1,0 +1,12 @@
+{
+  "charA": "sonic",
+  "charB": "steve",
+  "gameplanA": ["Force Steve to approach by holding center", "Whiff-punish blocks with bair", "Edgeguard hard — Steve recovery is exploitable"],
+  "gameplanB": ["Wall with side-B and blocks", "Don't chase spindash; shield and punish", "Use anvil to cover landings"],
+  "strongMovesA": ["bair", "spindash mixups", "fast OoS up-B"],
+  "strongMovesB": ["side-b (iron)", "anvil", "block pillar"],
+  "punishableMovesA": ["raw spindash on shield", "committed dair"],
+  "punishableMovesB": ["slow OoS", "telegraphed anvil"],
+  "stagesForA": { "ban": ["bf"], "counterpick": ["sv", "town"] },
+  "stagesForB": { "ban": ["sv"], "counterpick": ["fd", "ps2"] }
+}

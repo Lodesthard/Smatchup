@@ -1,0 +1,16 @@
+{
+  "id": "fox",
+  "name": "Fox",
+  "series": "Star Fox",
+  "combos": [
+    "Drag-down nair → up-tilt → up-air",
+    "Up-throw → up-air",
+    "Shine → grab / shine → up-smash"
+  ],
+  "gameplan": "Apply constant pressure with frame-1 nair and lasers. Convert any opening to a kill ladder.",
+  "moves_utility": {
+    "nair": "Frame 4 multi-hit; drag-down for combos.",
+    "shine": "Reflector; OoS option.",
+    "upsmash": "Kill option after up-throw / shine."
+  }
+}

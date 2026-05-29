@@ -1,0 +1,11 @@
+{
+  "query": {
+    "pages": {
+      "12345": {
+        "pageid": 12345,
+        "title": "Steve (SSBU)",
+        "extract": "Steve is a playable character in Super Smash Bros. Ultimate."
+      }
+    }
+  }
+}
