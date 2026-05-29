@@ -8,14 +8,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.smatchup.R
 import com.example.smatchup.ui.components.EmptyState
 import com.example.smatchup.ui.theme.SmatchupColors
 
 @Composable
 fun MovesTab(movesUtility: Map<String, String>, modifier: Modifier = Modifier) {
     if (movesUtility.isEmpty()) {
-        EmptyState(message = "Pas encore de descriptions de coups.", modifier = modifier)
+        EmptyState(message = stringResource(R.string.moves_empty), modifier = modifier)
         return
     }
     val entries = movesUtility.entries.toList()

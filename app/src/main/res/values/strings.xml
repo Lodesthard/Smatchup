@@ -1,3 +1,119 @@
 <resources>
     <string name="app_name">Smatchup</string>
+
+    <!-- Home -->
+    <string name="home_characters">Characters</string>
+    <string name="home_matchup">Match-up</string>
+    <string name="home_tierlists">Tier Lists</string>
+    <string name="home_favorites">Favorites</string>
+    <string name="home_profile">Profile</string>
+    <string name="home_last_match">Last Match</string>
+
+    <!-- Auth -->
+    <string name="auth_login_title">Login</string>
+    <string name="auth_field_identifier">Username or email</string>
+    <string name="auth_field_password">Password</string>
+    <string name="auth_login_cta">Sign in</string>
+    <string name="auth_create_account">Create account</string>
+    <string name="auth_register_title">Sign up</string>
+    <string name="auth_field_pseudo">Username</string>
+    <string name="auth_field_email">Email</string>
+    <string name="auth_field_confirm">Confirm password</string>
+    <string name="auth_register_cta">Sign up</string>
+    <string name="auth_have_account">I already have an account</string>
+
+    <!-- Auth errors -->
+    <string name="auth_error_fields_required">Fill in all fields</string>
+    <string name="auth_error_invalid_email">Invalid email</string>
+    <string name="auth_error_password_too_short">Password too short (min 6)</string>
+    <string name="auth_error_password_mismatch">Passwords do not match</string>
+    <string name="auth_error_invalid_credentials">Invalid credentials</string>
+    <string name="auth_error_pseudo_taken">Username already taken</string>
+    <string name="auth_error_email_taken">Email already used</string>
+    <string name="auth_error_account_exists">Account already exists</string>
+    <string name="auth_error_unknown">Unknown error</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_logout">Log out</string>
+    <string name="profile_language">Language</string>
+    <string name="language_english">English</string>
+    <string name="language_french">Français</string>
+
+    <!-- Character list -->
+    <string name="roster_title">Roster</string>
+    <string name="search_hint">Search…</string>
+    <string name="error_loading">Loading error: %1$s</string>
+    <string name="retry">Retry</string>
+    <string name="no_results">No results for \"%1$s\"</string>
+
+    <!-- Favorites -->
+    <string name="favorites_title">Favorites</string>
+    <string name="favorites_empty">No favorites yet.</string>
+    <string name="favorites_characters">Characters</string>
+    <string name="favorites_matchups">Match-ups</string>
+    <string name="vs">vs</string>
+
+    <!-- Tier list -->
+    <string name="tierlist_title">Tier List</string>
+    <string name="tierlist_unavailable">Tier list unavailable.</string>
+    <string name="tier_strength">Strength</string>
+    <string name="tier_difficulty">Difficulty</string>
+
+    <!-- Match-up picker -->
+    <string name="matchup_title">Match-up</string>
+    <string name="matchup_pick_first">Choose the 1st character</string>
+    <string name="matchup_pick_second">Choose the 2nd character (vs %1$s)</string>
+
+    <!-- Match-up detail -->
+    <string name="error_generic">Error: %1$s</string>
+    <string name="back">Back</string>
+    <string name="vs_caps">VS</string>
+    <string name="section_gameplan">Gameplan</string>
+    <string name="section_strong_moves">Strong moves</string>
+    <string name="section_punishable">Punishable</string>
+    <string name="section_stages">Stages</string>
+    <string name="mu_no_vod">No recent VOD found.</string>
+    <string name="winrate_feature">Win-rate</string>
+    <string name="winrate_instructions">Add START_GG_TOKEN to local.properties to enable win-rate computation.</string>
+
+    <!-- Match-up detail tabs -->
+    <string name="mu_tab_gameplan">Gameplan</string>
+    <string name="mu_tab_strong">Strong</string>
+    <string name="mu_tab_punish">Punish</string>
+    <string name="mu_tab_stages">Stages</string>
+    <string name="mu_tab_video">Video</string>
+
+    <!-- Character detail tabs -->
+    <string name="tab_combos">Combos</string>
+    <string name="tab_gameplan">Gameplan</string>
+    <string name="tab_moves">Moves</string>
+    <string name="tab_frame">Frame</string>
+    <string name="tab_synergy">Synergy</string>
+    <string name="tab_stages">Stages</string>
+    <string name="tab_video">Video</string>
+
+    <!-- Character detail tab content -->
+    <string name="combos_empty">No combos yet for this character.</string>
+    <string name="gameplan_empty">No gameplan yet for this character.</string>
+    <string name="moves_empty">No move descriptions yet.</string>
+    <string name="frame_empty">No framedata available for this character.</string>
+    <string name="frame_source">Source: %1$s</string>
+    <string name="frame_col_move">Move</string>
+    <string name="frame_col_startup">Startup</string>
+    <string name="frame_col_total">Total</string>
+    <string name="frame_col_dmg">Dmg</string>
+    <string name="synergy_empty">No synergies defined yet.</string>
+    <string name="stages_empty">No stage recommendations yet.</string>
+    <string name="stages_ban">TO BAN</string>
+    <string name="stages_counterpick">COUNTERPICK</string>
+    <string name="video_empty">No recent VOD found.</string>
+    <string name="video_feature">Latest YouTube match</string>
+    <string name="video_instructions">Add YOUTUBE_API_KEY to local.properties and rebuild.</string>
+
+    <!-- Components -->
+    <string name="token_gated_title">🔒 %1$s unavailable</string>
+    <string name="favorite_remove">Remove from favorites</string>
+    <string name="favorite_add">Add to favorites</string>
+    <string name="cd_character_orb">%1$s portrait</string>
 </resources>

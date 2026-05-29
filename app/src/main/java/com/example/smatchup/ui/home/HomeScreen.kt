@@ -3,14 +3,18 @@ package com.example.smatchup.ui.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.smatchup.R
 import com.example.smatchup.ui.components.OrbCard
 import com.example.smatchup.ui.theme.SmatchupColors
 import com.example.smatchup.ui.theme.wolBackground
@@ -29,30 +33,39 @@ fun HomeScreen(
     routes: HomeRoutes,
     modifier: Modifier = Modifier,
 ) {
+    val tiles = listOf(
+        stringResource(R.string.home_characters) to routes.onCharacters,
+        stringResource(R.string.home_matchup) to routes.onMatchup,
+        stringResource(R.string.home_tierlists) to routes.onTierlist,
+        stringResource(R.string.home_favorites) to routes.onFavorites,
+        stringResource(R.string.home_profile) to routes.onProfile,
+        stringResource(R.string.home_last_match) to routes.onLastMatch,
+    )
+
     Column(
         modifier = modifier
             .wolBackground()
+            .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         Box(modifier = Modifier.padding(top = 24.dp, bottom = 8.dp)) {
             Text(
-                text = "Smatchup",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.displayLarge,
                 color = SmatchupColors.Gold,
             )
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-            OrbCard(label = "Characters",  onClick = routes.onCharacters, modifier = Modifier.weight(1f))
-            OrbCard(label = "Match-up",    onClick = routes.onMatchup,    modifier = Modifier.weight(1f))
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-            OrbCard(label = "Tier Lists",  onClick = routes.onTierlist,   modifier = Modifier.weight(1f))
-            OrbCard(label = "Favorites",   onClick = routes.onFavorites,  modifier = Modifier.weight(1f))
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-            OrbCard(label = "Profile",     onClick = routes.onProfile,    modifier = Modifier.weight(1f))
-            OrbCard(label = "Last Match",  onClick = routes.onLastMatch,  modifier = Modifier.weight(1f))
+        // Adaptive grid: 2 columns on a phone in portrait, more on landscape / tablets.
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 150.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            items(items = tiles) { (label, onClick) ->
+                OrbCard(label = label, onClick = onClick)
+            }
         }
     }
 }

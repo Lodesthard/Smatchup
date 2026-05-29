@@ -14,8 +14,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.smatchup.R
 import com.example.smatchup.ui.ViewModelFactory
 import com.example.smatchup.ui.components.LoadingOrb
 import com.example.smatchup.ui.components.OrbCard
@@ -39,14 +41,14 @@ fun MatchupPickerScreen(
 
     Column(modifier = modifier.wolBackground().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
-            text = "Match-up",
+            text = stringResource(R.string.matchup_title),
             style = MaterialTheme.typography.displayMedium,
             color = SmatchupColors.Gold,
             modifier = Modifier.padding(top = 24.dp),
         )
         val prompt = when {
-            state.slotA == null -> "Choisis le 1er personnage"
-            else -> "Choisis le 2e personnage (vs ${state.slotA})"
+            state.slotA == null -> stringResource(R.string.matchup_pick_first)
+            else -> stringResource(R.string.matchup_pick_second, state.slotA!!)
         }
         Text(prompt, color = SmatchupColors.TextDim, style = MaterialTheme.typography.bodyLarge)
 

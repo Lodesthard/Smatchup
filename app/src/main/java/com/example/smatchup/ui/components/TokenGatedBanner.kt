@@ -10,7 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.smatchup.R
 import com.example.smatchup.ui.theme.SmatchupColors
 
 @Composable
@@ -28,7 +30,7 @@ fun TokenGatedBanner(
             .padding(12.dp),
     ) {
         Text(
-            text = "🔒 $feature indisponible",
+            text = stringResource(R.string.token_gated_title, feature),
             style = MaterialTheme.typography.titleMedium,
             color = SmatchupColors.Gold,
         )

@@ -7,7 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.smatchup.R
 import com.example.smatchup.ui.components.EmptyState
 import com.example.smatchup.ui.components.TokenGatedBanner
 import com.example.smatchup.ui.components.YouTubePlayer
@@ -23,8 +25,8 @@ fun VideoTab(
     Column(modifier = modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         when {
             tokenGated -> TokenGatedBanner(
-                feature = "Dernier match YouTube",
-                instructions = "Ajoute YOUTUBE_API_KEY dans local.properties et recompile.",
+                feature = stringResource(R.string.video_feature),
+                instructions = stringResource(R.string.video_instructions),
             )
             videoUrl != null -> {
                 if (videoTitle != null) {
@@ -32,7 +34,7 @@ fun VideoTab(
                 }
                 YouTubePlayer(videoIdOrUrl = videoUrl)
             }
-            else -> EmptyState(message = "Aucune VOD récente trouvée.")
+            else -> EmptyState(message = stringResource(R.string.video_empty))
         }
     }
 }

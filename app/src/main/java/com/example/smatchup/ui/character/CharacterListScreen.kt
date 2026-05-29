@@ -23,12 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.smatchup.R
 import com.example.smatchup.ui.ViewModelFactory
 import com.example.smatchup.ui.components.EmptyState
 import com.example.smatchup.ui.components.LoadingOrb
@@ -49,7 +51,7 @@ fun CharacterListScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
-            text = "Roster",
+            text = stringResource(R.string.roster_title),
             style = MaterialTheme.typography.displayMedium,
             color = SmatchupColors.Gold,
             modifier = Modifier.padding(top = 24.dp),
@@ -75,7 +77,7 @@ fun CharacterListScreen(
                 modifier = Modifier.fillMaxWidth(),
                 decorationBox = { inner ->
                     if (state.query.isEmpty()) {
-                        Text("Rechercher…", color = SmatchupColors.TextDim)
+                        Text(stringResource(R.string.search_hint), color = SmatchupColors.TextDim)
                     }
                     inner()
                 },
@@ -87,11 +89,11 @@ fun CharacterListScreen(
                 LoadingOrb()
             }
             state.error != null -> EmptyState(
-                message = "Erreur de chargement : ${state.error}",
-                ctaText = "Réessayer",
+                message = stringResource(R.string.error_loading, state.error ?: ""),
+                ctaText = stringResource(R.string.retry),
                 onCta = { viewModel.reload() },
             )
-            state.visible.isEmpty() -> EmptyState(message = "Aucun résultat pour \"${state.query}\"")
+            state.visible.isEmpty() -> EmptyState(message = stringResource(R.string.no_results, state.query))
             else -> LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 88.dp),
                 contentPadding = PaddingValues(top = 8.dp),

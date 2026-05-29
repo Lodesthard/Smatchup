@@ -2,6 +2,7 @@ package com.example.smatchup.ui.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.smatchup.data.repository.AuthError
 import com.example.smatchup.data.repository.AuthRepository
 import com.example.smatchup.data.repository.AuthResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 data class AuthUiState(
     val isLoading: Boolean = false,
     val loggedIn: Boolean = false,
-    val error: String? = null,
+    val error: AuthError? = null,
 )
 
 class AuthViewModel(
@@ -31,7 +32,7 @@ class AuthViewModel(
 
     fun login(identifier: String, password: String) {
         if (identifier.isBlank() || password.isBlank()) {
-            _state.update { it.copy(error = "Remplis tous les champs") }
+            _state.update { it.copy(error = AuthError.FIELDS_REQUIRED) }
             return
         }
         submit { doLogin(identifier, password) }
@@ -39,11 +40,11 @@ class AuthViewModel(
 
     fun register(pseudo: String, email: String, password: String, confirm: String) {
         if (pseudo.isBlank() || email.isBlank() || password.isBlank()) {
-            _state.update { it.copy(error = "Remplis tous les champs") }; return
+            _state.update { it.copy(error = AuthError.FIELDS_REQUIRED) }; return
         }
-        if (!email.contains("@")) { _state.update { it.copy(error = "Email invalide") }; return }
-        if (password.length < 6) { _state.update { it.copy(error = "Mot de passe trop court (min 6)") }; return }
-        if (password != confirm) { _state.update { it.copy(error = "Les mots de passe ne correspondent pas") }; return }
+        if (!email.contains("@")) { _state.update { it.copy(error = AuthError.INVALID_EMAIL) }; return }
+        if (password.length < 6) { _state.update { it.copy(error = AuthError.PASSWORD_TOO_SHORT) }; return }
+        if (password != confirm) { _state.update { it.copy(error = AuthError.PASSWORD_MISMATCH) }; return }
         submit { doRegister(pseudo, email, password) }
     }
 
@@ -54,7 +55,7 @@ class AuthViewModel(
             _state.update { it.copy(isLoading = true, error = null) }
             when (val res = block()) {
                 is AuthResult.Success -> _state.update { it.copy(isLoading = false, loggedIn = true) }
-                is AuthResult.Failure -> _state.update { it.copy(isLoading = false, error = res.reason) }
+                is AuthResult.Failure -> _state.update { it.copy(isLoading = false, error = res.error) }
             }
         }
     }

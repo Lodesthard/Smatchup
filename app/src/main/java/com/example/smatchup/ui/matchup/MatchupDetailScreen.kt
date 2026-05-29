@@ -1,5 +1,7 @@
 package com.example.smatchup.ui.matchup
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,9 +22,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.smatchup.R
 import com.example.smatchup.domain.model.Matchup
 import com.example.smatchup.ui.ViewModelFactory
 import com.example.smatchup.ui.components.EmptyState
@@ -51,40 +55,44 @@ fun MatchupDetailScreen(
             state.isLoading && state.matchup == null ->
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { LoadingOrb() }
             state.error != null ->
-                EmptyState(message = "Erreur : ${state.error}", ctaText = "Retour", onCta = onBack)
+                EmptyState(message = stringResource(R.string.error_generic, state.error ?: ""), ctaText = stringResource(R.string.back), onCta = onBack)
             state.matchup != null -> {
                 val mu = state.matchup!!
                 Column(modifier = Modifier.fillMaxSize()) {
                     Header(mu = mu, winRateA = state.winRateA, sample = state.winrateSample, tokenGated = state.winrateTokenGated)
                     TabBar(selected = state.selectedTab, onSelect = viewModel::selectTab)
-                    Column(
+                    Crossfade(
+                        targetState = state.selectedTab,
+                        animationSpec = tween(180),
                         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                    ) {
-                        when (state.selectedTab) {
-                            MatchupDetailTab.GAMEPLAN -> SectionCard("Gameplan") {
-                                PairedSplit(mu.charA, mu.gameplanA, mu.charB, mu.gameplanB)
-                            }
-                            MatchupDetailTab.STRONG -> SectionCard("Coups forts") {
-                                PairedSplit(mu.charA, mu.strongMovesA, mu.charB, mu.strongMovesB)
-                            }
-                            MatchupDetailTab.PUNISH -> SectionCard("Punissables") {
-                                PairedSplit(mu.charA, mu.punishableMovesA, mu.charB, mu.punishableMovesB)
-                            }
-                            MatchupDetailTab.STAGES -> SectionCard("Stages") {
-                                PairedSplit(
-                                    mu.charA, mu.stagesForA.map { "${it.verdict.name.lowercase()}: ${it.displayName}" },
-                                    mu.charB, mu.stagesForB.map { "${it.verdict.name.lowercase()}: ${it.displayName}" },
-                                )
-                            }
-                            MatchupDetailTab.VIDEO -> {
-                                if (state.lastVideoUrl != null) {
-                                    if (state.lastVideoTitle != null) {
-                                        Text(state.lastVideoTitle!!, style = MaterialTheme.typography.titleMedium, color = SmatchupColors.Gold)
+                        label = "matchupDetailTab",
+                    ) { tab ->
+                        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                            when (tab) {
+                                MatchupDetailTab.GAMEPLAN -> SectionCard(stringResource(R.string.section_gameplan)) {
+                                    PairedSplit(mu.charA, mu.gameplanA, mu.charB, mu.gameplanB)
+                                }
+                                MatchupDetailTab.STRONG -> SectionCard(stringResource(R.string.section_strong_moves)) {
+                                    PairedSplit(mu.charA, mu.strongMovesA, mu.charB, mu.strongMovesB)
+                                }
+                                MatchupDetailTab.PUNISH -> SectionCard(stringResource(R.string.section_punishable)) {
+                                    PairedSplit(mu.charA, mu.punishableMovesA, mu.charB, mu.punishableMovesB)
+                                }
+                                MatchupDetailTab.STAGES -> SectionCard(stringResource(R.string.section_stages)) {
+                                    PairedSplit(
+                                        mu.charA, mu.stagesForA.map { "${it.verdict.name.lowercase()}: ${it.displayName}" },
+                                        mu.charB, mu.stagesForB.map { "${it.verdict.name.lowercase()}: ${it.displayName}" },
+                                    )
+                                }
+                                MatchupDetailTab.VIDEO -> {
+                                    if (state.lastVideoUrl != null) {
+                                        if (state.lastVideoTitle != null) {
+                                            Text(state.lastVideoTitle!!, style = MaterialTheme.typography.titleMedium, color = SmatchupColors.Gold)
+                                        }
+                                        YouTubePlayer(videoIdOrUrl = state.lastVideoUrl!!)
+                                    } else {
+                                        EmptyState(message = stringResource(R.string.mu_no_vod))
                                     }
-                                    YouTubePlayer(videoIdOrUrl = state.lastVideoUrl!!)
-                                } else {
-                                    EmptyState(message = "Aucune VOD récente trouvée.")
                                 }
                             }
                         }
@@ -113,14 +121,14 @@ private fun Header(mu: Matchup, winRateA: Float?, sample: Int, tokenGated: Boole
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
             CharCol(mu.charA)
-            Text("VS", style = MaterialTheme.typography.displayMedium, color = SmatchupColors.Gold)
+            Text(stringResource(R.string.vs_caps), style = MaterialTheme.typography.displayMedium, color = SmatchupColors.Gold)
             CharCol(mu.charB)
         }
         when {
             winRateA != null -> WinBar(percentA = winRateA, sample = sample)
             tokenGated -> TokenGatedBanner(
-                feature = "Win-rate",
-                instructions = "Ajoute START_GG_TOKEN dans local.properties pour activer le calcul de win-rate.",
+                feature = stringResource(R.string.winrate_feature),
+                instructions = stringResource(R.string.winrate_instructions),
             )
         }
     }
@@ -129,7 +137,7 @@ private fun Header(mu: Matchup, winRateA: Float?, sample: Int, tokenGated: Boole
 @Composable
 private fun CharCol(charId: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        PortraitOrb(charId = charId, size = 56.dp)
+        PortraitOrb(charId = charId, size = 56.dp, contentDescription = charId.replaceFirstChar { it.uppercase() })
         Text(charId.replaceFirstChar { it.uppercase() }, color = SmatchupColors.Text, style = MaterialTheme.typography.labelMedium, textAlign = TextAlign.Center)
     }
 }
@@ -145,7 +153,7 @@ private fun TabBar(selected: MatchupDetailTab, onSelect: (MatchupDetailTab) -> U
     ) {
         MatchupDetailTab.entries.forEach { tab ->
             Text(
-                text = tab.label.uppercase(),
+                text = stringResource(tab.labelRes).uppercase(),
                 color = if (tab == selected) SmatchupColors.Gold else SmatchupColors.TextDim,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.clickable { onSelect(tab) }.padding(horizontal = 14.dp, vertical = 12.dp),

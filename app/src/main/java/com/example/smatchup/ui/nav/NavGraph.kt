@@ -1,5 +1,10 @@
 package com.example.smatchup.ui.nav
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,9 +35,22 @@ import com.example.smatchup.ui.theme.wolBackground
 @Composable
 fun SmatchupNavGraph() {
     val nav = rememberNavController()
-    NavHost(navController = nav, startDestination = Screen.Splash.route) {
+    NavHost(
+        navController = nav,
+        startDestination = Screen.Splash.route,
+        // §8.6 page transitions: fade + subtle slide-up on enter, fade on exit.
+        enterTransition = { fadeIn(tween(220)) + slideInVertically(tween(220)) { it / 16 } },
+        exitTransition = { fadeOut(tween(180)) },
+        popEnterTransition = { fadeIn(tween(220)) },
+        popExitTransition = { fadeOut(tween(180)) + slideOutVertically(tween(180)) { it / 16 } },
+    ) {
 
-        composable(Screen.Splash.route) {
+        composable(
+            Screen.Splash.route,
+            // Plain fade on first paint; a slide here feels janky before the splash pops itself.
+            enterTransition = { fadeIn(tween(220)) },
+            exitTransition = { fadeOut(tween(180)) },
+        ) {
             SplashScreen(onResolved = { loggedIn ->
                 val dest = if (loggedIn) Screen.Home.route else Screen.Login.route
                 nav.navigate(dest) {
